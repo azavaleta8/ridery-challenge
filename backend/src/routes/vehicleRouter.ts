@@ -40,7 +40,7 @@ const router = express.Router();
  *                 example: available
  *               user_id:
  *                 type: string
- *                 example: 60d0fe4f5311236168a109ca
+ *                 example: 67aef0a1270a441bdc102256
  *     responses:
  *       201:
  *         description: Vehicle created successfully

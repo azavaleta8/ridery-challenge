@@ -12,6 +12,11 @@ import * as VehicleService from '../services/vehicleService';
  */
 export const createVehicleController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+        if (!req.user || req.user.id !== req.body["user_id"]) {
+            res.status(StatusCodes.UNAUTHORIZED).json({ message: 'User not authorized' });
+            return;
+        }
+
         const vehicle = await VehicleService.createVehicle(req.body);
         res.status(StatusCodes.CREATED).json(vehicle);
     } catch (error) {
