@@ -3,13 +3,13 @@ import bcrypt from 'bcrypt';
 
 // Define the interface for the User model
 export interface IUser extends Document {
-    username: string;
+    email: string;
     password: string;
 }
 
 // Define the schema for the User model
 const UserSchema: Schema<IUser> = new Schema({
-    username: {
+    email: {
         type: String,
         required: true,
         unique: true,

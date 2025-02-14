@@ -8,8 +8,8 @@ import { UserModel, IUser } from '../models/User';
  * @returns {object} The sanitized user object.
  */
 function sanitizeResponse(user: IUser) {
-    const { _id, username } = user;
-    return { id: _id, username };
+    const { _id, email } = user;
+    return { id: _id, email };
 }
 
 /**

@@ -1,5 +1,6 @@
 import express from 'express';
 import { loginController } from '../controllers/authController';
+import { validateUserPOST } from '../validators/userValidation';
 
 const router = express.Router();
 
@@ -16,12 +17,12 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             required:
- *               - username
+ *               - email
  *               - password
  *             properties:
- *               username:
+ *               email:
  *                 type: string
- *                 example: user1
+ *                 example: user@example.com
  *               password:
  *                 type: string
  *                 example: password123
@@ -31,6 +32,6 @@ const router = express.Router();
  *       401:
  *         description: Invalid credentials
  */
-router.post('/login', loginController);
+router.post('/login', validateUserPOST, loginController);
 
 export default router;

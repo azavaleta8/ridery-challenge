@@ -18,9 +18,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'secret';
  */
 export const loginController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const { username, password } = req.body;
+        const { email, password } = req.body;
 
-        const user: IUser | null = await UserModel.findOne({ username });
+        const user: IUser | null = await UserModel.findOne({ email });
         if (!user) {
             res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid credentials' });
             return;
@@ -31,7 +31,7 @@ export const loginController = async (req: Request, res: Response, next: NextFun
             res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
         res.status(StatusCodes.OK).json({ token });
     } catch (error) {
         next(error);
