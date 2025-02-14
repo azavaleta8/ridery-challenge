@@ -4,15 +4,16 @@ Este proyecto implementa una API RESTful para la gestión de vehículos y un fro
 
 ## Producción
 
-El frontend está disponible en `https://ridery-challenge.onrender.com`.
-El backend está disponible en `https://ridery-challenge-api.onrender.com/docs/`.
+- El frontend está disponible en `https://ridery-challenge.onrender.com`
+- El backend está disponible en `https://ridery-challenge-api.onrender.com/docs/`
 
 ## Configuración y Ejecución del Proyecto
 
 ### Prerrequisitos
 
 - Node.js (v14 o superior)
-- MongoDB
+- docker-compose
+- docker
 
 ## Variables de Entorno
 
@@ -70,7 +71,7 @@ Para ejecutar el proyecto utilizando Docker Compose, sigue estos pasos:
    ```
 
 El servidor frontend estará corriendo en `http://localhost:80`.
-El servidor backend estat corriendo en `http://localhost:3000`.
+El servidor backend estará corriendo en `http://localhost:3000`.
 
 ## Estructura del Proyecto y Decisiones de Diseño
 
@@ -92,8 +93,21 @@ El servidor backend estat corriendo en `http://localhost:3000`.
 
 ### Arquitectura
 
+#### Backend
+
 - Se implementó una arquitectura en capas (rutas, controladores, servicios, modelos).
 - Se utilizó el patrón repositorio para el acceso a datos, encapsulando la lógica de la base de datos en los servicios.
+- Se utilizaron middlewares para la autenticación y manejo de errores.
+- La validación de datos se realizó utilizando validadores personalizados.
+
+#### Frontend
+
+- Se utilizó Vue 3 con Composition API para la construcción del frontend.
+- La estructura del frontend se dividió en componentes y vistas para una mejor organización y reutilización del código.
+- Los componentes se encuentran en la carpeta `src/components` y se encargan de partes específicas de la interfaz de usuario, como formularios, listas y elementos interactivos.
+- Las vistas se encuentran en la carpeta `src/views` y representan páginas completas de la aplicación. Cada vista puede contener múltiples componentes.
+- Se utilizó Vue Router para la navegación entre las diferentes vistas de la aplicación.
+- Se implementaron servicios en la carpeta `src/services` para manejar la comunicación con la API backend utilizando Axios.
 
 ## Endpoints de la API
 
