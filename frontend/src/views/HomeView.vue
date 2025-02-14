@@ -1,93 +1,84 @@
-<template>
-  <div class="login">
-    <h1>Login</h1>
-
-    <form @submit.prevent="handleLogin">
-      <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" required />
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" required />
-      </div>
-      <button type="submit">Login</button>
-    </form>
-
-    <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-    </nav>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-
-const email = ref('');
-const password = ref('');
-const router = useRouter();
-
-const handleLogin = async () => {
-  // Aquí puedes agregar la lógica para autenticar al usuario
-  // Por ejemplo, hacer una solicitud a tu API de backend
-  console.log('Email:', email.value);
-  console.log('Password:', password.value);
-
-  // Simulación de autenticación exitosa
-  if (email.value === 'user@example.com' && password.value === 'password') {
-    // Redirigir al usuario a la página de inicio después de iniciar sesión
-    router.push('/');
-  } else {
-    alert('Invalid credentials');
-  }
-};
+import { RouterLink, RouterView } from 'vue-router'
+import HelloWorld from '../components/HelloWorld.vue'
+import Auth from '../components/Auth.vue'
 </script>
 
+<template>
+
+  <div class="box">
+    <header>
+  
+      <img alt="Ridery logo" class="logo" src="@/assets/ridery-icon.jpg" width="250" height="250" />
+
+      <div class="wrapper">
+        <HelloWorld msg="Administrador de Vehiculos" />
+      </div>
+    </header>
+
+    <auth></auth>
+
+  </div>
+
+  
+  
+</template>
+
 <style scoped>
-.login {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
 
-.login h1 {
-  text-align: center;
-}
+  .container {
+    font-family: 'Arial', sans-serif;
+    color: var(--color-text);
+    background-color: var(--color-background);
+    height: 100%;
+    width: 100%;
+    display: flex;
+  }
 
-.login form {
-  display: flex;
-  flex-direction: column;
-}
+  .box {
+    max-width: 1024px;
+    margin: auto;
+    display: block;
+  }
 
-.login form div {
-  margin-bottom: 1rem;
-}
+  header {
+    display: block;
+    place-items: center;
+  }
 
-.login form label {
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
+  header .wrapper {
+    display: flex;
+    place-items: flex-start;
+    flex-wrap: wrap;
+  }
 
-.login form input {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+  .logo {
+    display: block;
+    margin: 0 auto 2rem;
+  }
 
-.login form button {
-  padding: 0.5rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #42b983;
-  color: white;
-  cursor: pointer;
-}
+  nav {
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 2rem;
+  }
 
-.login form button:hover {
-  background-color: #369f6e;
-}
+  nav a.router-link-exact-active {
+    color: var(--color-text);
+  }
+
+  nav a.router-link-exact-active:hover {
+    background-color: transparent;
+  }
+
+  nav a {
+    display: inline-block;
+    padding: 0 1rem;
+    border-left: 1px solid var(--color-border);
+  }
+
+  nav a:first-of-type {
+    border: 0;
+  }
 </style>
