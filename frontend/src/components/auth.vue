@@ -4,7 +4,7 @@
 
     <form @submit.prevent="handleSubmit">
       <div>
-        <input type="email" id="email" v-model="email" required placeholder="Correo Electrónico"/>
+        <input id="email" v-model="email" required placeholder="Correo Electrónico"/>
       </div>
       <div>
         <input type="password" id="password" v-model="password" required placeholder="Contraseña"/>
@@ -31,13 +31,30 @@
   const toast = useToast();
 
 
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
   const handleSubmit = async () => {
     try {
+
+      if (!validateEmail(email.value)) {
+        toast.error('Por favor ingrese un correo electrónico válido');
+        return;
+      }
+
+      if (password.value.length < 6) {
+        toast.error('La contraseña debe tener al menos 6 caracteres');
+        return;
+      }
+
       if (isLogin.value) {
         const response = await login(email.value, password.value);
         toast.success('Inicio de sesión exitoso');
         console.log('Login successful:', response);
-        router.push('/');
+        localStorage.setItem('token', response.token);
+        router.push('/admin');
       } else {
         const response = await register(email.value, password.value);
         toast.success('Registro exitoso');
