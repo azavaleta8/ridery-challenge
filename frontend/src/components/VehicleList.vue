@@ -1,6 +1,5 @@
 <template>
   <div class="vehicle-list">
-    <h2>Lista de Vehículos</h2>
     <div class="labels">
       <div class="label">Fecha de Registro</div>
       <div class="label">Identificador</div>

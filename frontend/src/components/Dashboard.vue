@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <AddVehicle @vehicleAdded="addVehicle" />
+    <div class="label"> <h2>Lista de Vehículos</h2> </div>
     <Search @searchQueryChanged="updateSearchQuery" @yearChanged="updateYearFilter" @statusChanged="updateStatusFilter"/>
     <VehicleList :vehicles="vehicles" :searchQuery="searchQuery" :selectedYear="selectedYear" :selectedStatus="selectedStatus"/>
     <Pagination :currentPage="currentPage" :totalPages="totalPages" @pageChanged="handlePageChange" />
@@ -77,5 +78,10 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px;
+  }
+
+  .label { 
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
   }
 </style>
