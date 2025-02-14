@@ -24,7 +24,7 @@ if (!MONGODB_URI) {
  * @returns {Promise<void>} - A promise that resolves when the connection is established.
  * @throws Will log an error message and exit the process if the connection fails.
  */
-const connectToDatabase = async (): Promise<void> => {
+export const connectToDatabase = async (): Promise<void> => {
     try {
         
         await mongoose.connect(MONGODB_URI);
