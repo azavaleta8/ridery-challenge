@@ -69,7 +69,7 @@ export const getAllVehiclesController = async (req: Request, res: Response, next
 };
 
 /**
- * Retrieves a vehicle by its ID.
+ * Retrieves a vehicle by its ID for the authenticated user.
  *
  * @param req - The request object containing the vehicle ID in the parameters.
  * @param res - The response object used to send the status and JSON data.
@@ -78,9 +78,16 @@ export const getAllVehiclesController = async (req: Request, res: Response, next
  */
 export const getVehicleByIdController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const vehicle = await VehicleService.getVehicleById(req.params.id);
+        if (!req.user) {
+            res.status(StatusCodes.UNAUTHORIZED).json({ message: 'User not authenticated' });
+            return;
+        }
+
+        const userId = req.user.id;
+        const vehicle = await VehicleService.getVehicleById(req.params.id, userId);
         if (!vehicle) {
             res.status(StatusCodes.NOT_FOUND).json({ message: 'Vehicle not found' });
+            return;
         }
         res.status(StatusCodes.OK).json(vehicle);
     } catch (error) {

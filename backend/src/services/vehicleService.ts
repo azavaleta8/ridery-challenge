@@ -58,13 +58,13 @@ export const getAllVehiclesByUserId = async (userId : string): Promise<IVehicle[
  * @returns The vehicle corresponding to the provided ID.
  * @throws {Error} If the vehicle is not found or there is an error fetching the vehicle.
  */
-export const getVehicleById = async (id: string): Promise<IVehicle | null> => {
+export const getVehicleById = async (id: string, userId: string): Promise<IVehicle | null> => {
     try {
-        const vehicle = await VehicleModel.findById(id);
+        const vehicle = await VehicleModel.find({ _id: id, user_id: userId });
         if (!vehicle) {
             throw new Error('Vehicle not found');
         }
-        return vehicle;
+        return vehicle[0];
     } catch (error) {
         throw new Error(`Error fetching vehicle by ID: ${(error as Error).message}`);
     }
