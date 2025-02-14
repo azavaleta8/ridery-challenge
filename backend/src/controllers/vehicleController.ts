@@ -1,6 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import * as VehicleService from '../services/vehicleService';
+import { get } from 'mongoose';
+
+
+const getUserIdFromRequest = (req: Request, res: Response): string => {
+    if (!req.user) {
+        res.status(StatusCodes.UNAUTHORIZED).json({ message: 'User not authenticated' });
+        throw new Error('User not authenticated');
+    }
+
+    return req.user.id;
+}
 
 /**
  * Creates a new vehicle.
@@ -34,11 +45,16 @@ export const createVehicleController = async (req: Request, res: Response, next:
  */
 export const updateVehicleController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const vehicle = await VehicleService.updateVehicle(req.params.id, req.body);
+        
+        const userId = getUserIdFromRequest(req, res);
+        const vehicle = await VehicleService.getVehicleById(req.params.id, userId);
         if (!vehicle) {
             res.status(StatusCodes.NOT_FOUND).json({ message: 'Vehicle not found' });
+            return;
         }
-        res.status(StatusCodes.OK).json(vehicle);
+
+        const vehicleUpdated = await VehicleService.updateVehicle(req.params.id, req.body);
+        res.status(StatusCodes.OK).json(vehicleUpdated);
     } catch (error) {
         next(error);
     }
@@ -54,13 +70,7 @@ export const updateVehicleController = async (req: Request, res: Response, next:
  */
 export const getAllVehiclesController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        
-        if (!req.user) {
-            res.status(StatusCodes.UNAUTHORIZED).json({ message: 'User not authenticated' });
-            return;
-        }
-
-        const userId = req.user.id;
+        const userId = getUserIdFromRequest(req, res);
         const vehicles = await VehicleService.getAllVehiclesByUserId(userId);
         res.status(StatusCodes.OK).json(vehicles);
     } catch (error) {
@@ -78,12 +88,7 @@ export const getAllVehiclesController = async (req: Request, res: Response, next
  */
 export const getVehicleByIdController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        if (!req.user) {
-            res.status(StatusCodes.UNAUTHORIZED).json({ message: 'User not authenticated' });
-            return;
-        }
-
-        const userId = req.user.id;
+        const userId = getUserIdFromRequest(req, res);
         const vehicle = await VehicleService.getVehicleById(req.params.id, userId);
         if (!vehicle) {
             res.status(StatusCodes.NOT_FOUND).json({ message: 'Vehicle not found' });
@@ -105,12 +110,8 @@ export const getVehicleByIdController = async (req: Request, res: Response, next
  */
 export const deleteVehicleController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        if (!req.user) {
-            res.status(StatusCodes.UNAUTHORIZED).json({ message: 'User not authenticated' });
-            return;
-        }
-
-        const vehicle = await VehicleService.getVehicleById(req.params.id, req.user.id);
+        const userId = getUserIdFromRequest(req, res);
+        const vehicle = await VehicleService.getVehicleById(req.params.id, userId);
         if (!vehicle) {
             res.status(StatusCodes.NOT_FOUND).json({ message: 'Vehicle not found' });
             return;
