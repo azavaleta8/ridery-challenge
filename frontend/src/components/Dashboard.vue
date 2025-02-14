@@ -3,6 +3,7 @@
     <AddVehicle @vehicleAdded="addVehicle" />
     <Search @searchQueryChanged="updateSearchQuery" />
     <VehicleList :vehicles="vehicles" :searchQuery="searchQuery" />
+    <Pagination :currentPage="currentPage" :totalPages="totalPages" @pageChanged="handlePageChange" />
   </div>
 </template>
 
@@ -12,10 +13,13 @@
   import AddVehicle from './AddVehicle.vue';
   import Search from './Search.vue';
   import VehicleList from './VehicleList.vue';
+  import Pagination from './Pagination.vue';
   import { getVehicles } from '../services/vehicleService';
 
   const vehicles = ref([]);
   const searchQuery = ref('');
+  const currentPage = ref(1);
+  const totalPages = ref(1);
   const toast = useToast();
 
   const addVehicle = (newVehicle) => {
@@ -26,16 +30,23 @@
     searchQuery.value = query;
   };
 
-  const fetchVehicles = async () => {
+  const fetchVehicles = async (page = 1) => {
     try {
       const token = localStorage.getItem('token');
-
-      const response = await getVehicles(token, 1, 10);
+      if (!token) {
+        throw new Error('No se encontró el token de autenticación');
+      }
+      const response = await getVehicles(token, page, 10); // Cambia los valores de page y size según sea necesario
       vehicles.value = response.vehicles;
-      console.log(vehicles.value)
+      totalPages.value = Math.ceil(response.total / response.size);
     } catch (error) {
       toast.error(error.message);
     }
+  };
+
+  const handlePageChange = (page) => {
+    currentPage.value = page;
+    fetchVehicles(page);
   };
 
   onMounted(() => {
@@ -44,7 +55,7 @@
 </script>
 
 <style scoped>
-.container {
+  .container {
     margin: auto;
     height: 90%;
     width: 60%;
