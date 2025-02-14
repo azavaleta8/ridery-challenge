@@ -4,7 +4,7 @@ import { IUser } from './User';
 // Define the interface for the Vehicle model
 export interface IVehicle extends Document {
     brand: string;
-    model: string;
+    vehicleModel: string;
     year: number;
     status: 'available' | 'in_maintenance' | 'in_service';
     user_id: IUser['_id'];
@@ -17,7 +17,7 @@ const VehicleSchema: Schema<IVehicle> = new Schema({
         required: true,
         trim: true
     },
-    model: {
+    vehicleModel: {
         type: String,
         required: true,
         trim: true

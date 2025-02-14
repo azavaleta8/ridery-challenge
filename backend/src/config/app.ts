@@ -10,6 +10,7 @@ import { apiLimiter } from './rateLimit';
 import healthRouter from '../routes/healthRouter';
 import userRouter from '../routes/userRouter';
 import authRouter from '../routes/authRouter';
+import vehicleRouter from '../routes/vehicleRouter';
 
 /**
  * Creates and configures an Express application.
@@ -38,6 +39,7 @@ const createApp = (): Application => {
     app.use('', healthRouter);
     app.use('/auth', authRouter);
     app.use('/api', userRouter);
+    app.use('/api', vehicleRouter);
 
     // Root route
     app.get('/', (req: Request, res: Response) => {

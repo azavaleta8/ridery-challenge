@@ -21,7 +21,7 @@ export const validateId = [
  */
 export const validateVehicle = [
     body('brand').isString().withMessage('Brand must be a string').trim().notEmpty().withMessage('Brand is required'),
-    body('model').isString().withMessage('Model must be a string').trim().notEmpty().withMessage('Model is required'),
+    body('vehicleModel').isString().withMessage('Model must be a string').trim().notEmpty().withMessage('Model is required'),
     body('year').isInt({ min: 1886, max: new Date().getFullYear() + 1 }).withMessage(`Year must be between 1886 and ${new Date().getFullYear() + 1}`),
     body('status').isIn(['available', 'in_maintenance', 'in_service']).withMessage('Status must be one of: available, in_maintenance, in_service'),
     body('user_id').isMongoId().withMessage('User ID must be a valid MongoDB ID'),

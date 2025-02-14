@@ -21,7 +21,7 @@ const router = express.Router();
  *             type: object
  *             required:
  *               - brand
- *               - model
+ *               - vehicleModel
  *               - year
  *               - status
  *               - user_id
@@ -29,7 +29,7 @@ const router = express.Router();
  *               brand:
  *                 type: string
  *                 example: Toyota
- *               model:
+ *               vehicleModel:
  *                 type: string
  *                 example: Corolla
  *               year:
@@ -73,7 +73,7 @@ router.post('/vehicles', authMiddleware, validateVehicle, createVehicleControlle
  *             type: object
  *             required:
  *               - brand
- *               - model
+ *               - vehicleModel
  *               - year
  *               - status
  *               - user_id
@@ -81,7 +81,7 @@ router.post('/vehicles', authMiddleware, validateVehicle, createVehicleControlle
  *               brand:
  *                 type: string
  *                 example: Toyota
- *               model:
+ *               vehicleModel:
  *                 type: string
  *                 example: Corolla
  *               year:
