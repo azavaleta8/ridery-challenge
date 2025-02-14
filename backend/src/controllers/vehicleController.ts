@@ -61,7 +61,7 @@ export const updateVehicleController = async (req: Request, res: Response, next:
 };
 
 /**
- * Retrieves all vehicles.
+ * Retrieves all vehicles with pagination.
  *
  * @param req - The request object.
  * @param res - The response object used to send the status and JSON data.
@@ -70,9 +70,13 @@ export const updateVehicleController = async (req: Request, res: Response, next:
  */
 export const getAllVehiclesController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+        
+        const page = parseInt(req.query.page as string) || 1;
+        const size = parseInt(req.query.size as string) || 10;
+
         const userId = getUserIdFromRequest(req, res);
-        const vehicles = await VehicleService.getAllVehiclesByUserId(userId);
-        res.status(StatusCodes.OK).json(vehicles);
+        const { total, vehicles } = await VehicleService.getAllVehiclesByUserId(userId, page, size);
+        res.status(StatusCodes.OK).json({ total, page, size, vehicles });
     } catch (error) {
         next(error);
     }

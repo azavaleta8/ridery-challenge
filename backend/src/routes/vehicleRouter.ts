@@ -111,6 +111,17 @@ router.put('/vehicles/:id', authMiddleware, validateId, validateVehicle, updateV
  *     tags: [Vehicles]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: The page number
+ *       - in: query
+ *         name: size
+ *         schema:
+ *           type: integer
+ *         description: The number of vehicles per page
  *     responses:
  *       200:
  *         description: List of all vehicles

@@ -5,7 +5,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
 interface JwtPayload {
     id: string;
-    username: string;
+    email: string;
 }
 
 declare module 'express-serve-static-core' {

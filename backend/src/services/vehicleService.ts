@@ -37,15 +37,22 @@ export const updateVehicle = async (id: string, updateData: Partial<IVehicle>): 
 };
 
 /**
- * Retrieves all vehicles.
+ * Retrieves all vehicles by user ID with pagination.
  * 
- * @returns An array of all vehicles.
+ * @param userId - The ID of the user to retrieve vehicles for.
+ * @param page - The page number.
+ * @param size - The number of vehicles per page.
+ * @returns An array of vehicles for the specified user and pagination info.
  * @throws {Error} If there is an error fetching the vehicles.
  */
-export const getAllVehiclesByUserId = async (userId : string): Promise<IVehicle[]> => {
+export const getAllVehiclesByUserId = async (userId: string, page: number, size: number): Promise<{ vehicles: IVehicle[], total: number }> => {
     try {
-        const vehicles = await VehicleModel.find({ user_id: userId });
-        return vehicles;
+        const skip = (page - 1) * size;
+        const vehicles = await VehicleModel.find({ user_id: userId })
+            .skip(skip)
+            .limit(size);
+        const total = await VehicleModel.countDocuments({ user_id: userId });
+        return { total, vehicles };
     } catch (error) {
         throw new Error(`Error fetching vehicles by user ID: ${(error as Error).message}`);
     }
