@@ -2,19 +2,43 @@ import createApp from './config/app';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
+// ENV
+dotenv.config({ path: '../.env' });
+
+// Mongoose config
+mongoose.set('strictQuery', false);
+
 const NODE_ENV: string = process.env.NODE_ENV || 'dev';
 const PORT: number = parseInt(process.env.PORT || '3000', 10);
 const HOST: string = process.env.RENDER_EXTERNAL_URL || 'localhost';
-// const MONGODB_URI: string | undefined = process.env.MONGODB_URI;
-// const MONGODB_URI_TEST: string | undefined = process.env.MONGODB_URI_TEST;
+const MONGODB_URI: string | undefined = process.env.MONGODB_URI;
 
-// ENV
-dotenv.config();
+if (!MONGODB_URI) {
+    console.error('Error: MONGODB_URI is not defined.');
+    process.exit(1);
+}
 
+/**
+ * Connects to the MongoDB database using the provided URI.
+ * 
+ * @returns {Promise<void>} - A promise that resolves when the connection is established.
+ * @throws Will log an error message and exit the process if the connection fails.
+ */
+const connectToDatabase = async (): Promise<void> => {
+    try {
+        
+        await mongoose.connect(MONGODB_URI);
+        console.log('MongoDB initialized successfully:', mongoose.connection.host);
+
+    } catch (error) {
+        console.error('Error connecting to MongoDB:', error);
+        process.exit(1);
+    }
+};
 
 const startServer = async () => {
     try {
-        // await connectToDatabase();
+        await connectToDatabase();
 
         const app = await createApp();
         app.listen(PORT, () => {
