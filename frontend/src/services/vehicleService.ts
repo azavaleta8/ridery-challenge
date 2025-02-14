@@ -4,7 +4,6 @@ const API_URL = 'http://localhost:3000';
 
 export const getVehicles = async (token: string, page: number, size: number) => {
   try {
-    console.log("holaa")
     const response = await axios.get(`${API_URL}/api/vehicles`, {
       headers: {
         Authorization: `Bearer ${token}`
