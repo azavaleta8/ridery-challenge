@@ -105,6 +105,17 @@ export const getVehicleByIdController = async (req: Request, res: Response, next
  */
 export const deleteVehicleController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+        if (!req.user) {
+            res.status(StatusCodes.UNAUTHORIZED).json({ message: 'User not authenticated' });
+            return;
+        }
+
+        const vehicle = await VehicleService.getVehicleById(req.params.id, req.user.id);
+        if (!vehicle) {
+            res.status(StatusCodes.NOT_FOUND).json({ message: 'Vehicle not found' });
+            return;
+        }
+
         const result = await VehicleService.deleteVehicle(req.params.id);
         res.status(StatusCodes.NO_CONTENT).json(result);
     } catch (error) {
