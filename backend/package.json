@@ -4,9 +4,10 @@
   "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/app.js",
+    "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "lint": "eslint --fix src"
+    "lint": "eslint --fix src",
+    "prod": "npm run build && npm start"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
