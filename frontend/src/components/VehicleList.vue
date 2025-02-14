@@ -30,9 +30,10 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, defineProps, reactive, ref } from 'vue';
+  import { computed, defineProps, ref } from 'vue';
   import { useToast } from 'vue-toastification';
   import ConfirmDialog from './ConfirmDialog.vue';
+  import { updateVehicle } from '../services/vehicleService';
 
   const props = defineProps({
     vehicles: Array,
@@ -54,7 +55,6 @@
   });
 
   const confirmStatusChange = (vehicle, event) => {
-    console.log(vehicle, event.target.value);
     const originalStatus = vehicle.status;
     const newStatus = event.target.value;
 
@@ -82,11 +82,28 @@
     });
   };
 
-  const updateStatus = (vehicle, newStatus) => {
-    vehicle.status = newStatus;
-    // Aquí puedes agregar la lógica para actualizar el estado del vehículo en el backend
-    console.log(`Estado del vehículo ${vehicle._id} actualizado a ${vehicle.status}`);
-  };
+  const updateStatus = async (vehicle, newStatus) => {
+    const token = localStorage.getItem('token');
+
+    try {
+
+      await updateVehicle(token, vehicle._id, {
+        brand: vehicle.brand,
+        vehicleModel: vehicle.vehicleModel,
+        year: vehicle.year,
+        status: newStatus,
+        user_id: vehicle.user_id
+      });
+
+      vehicle.status = newStatus;
+      console.log(`Estado del vehículo ${vehicle._id} actualizado a ${vehicle.status}`);
+      toast.success('Estado del vehículo actualizado exitosamente');
+      forceRerender();
+    } catch (error) {
+      console.error('Error al actualizar el estado del vehículo', error);
+      toast.error('Error al actualizar el estado del vehículo');
+    };
+  }
 </script>
 
 <style scoped>
