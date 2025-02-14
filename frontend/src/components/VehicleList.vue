@@ -1,8 +1,21 @@
 <template>
   <div class="vehicle-list">
     <h2>Lista de Vehículos</h2>
+    <div class="labels">
+      <div class="label">Identificador</div>
+      <div class="label">Marca</div>
+      <div class="label">Modelo</div>
+      <div class="label">Año</div>
+      <div class="label">Estado</div>
+    </div>
     <ul v-if="filteredVehicles.length > 0">
-      <li v-for="vehicle in filteredVehicles" :key="vehicle.id">{{ vehicle.name }}</li>
+      <li v-for="vehicle in filteredVehicles" :key="vehicle._id">
+        <div class="item">{{ vehicle._id.slice(-5) }}</div>
+        <div class="item">{{ vehicle.brand }}</div>
+        <div class="item">{{ vehicle.vehicleModel }}</div>
+        <div class="item">{{ vehicle.year }}</div>
+        <div class="item">{{ vehicle.status }}</div>
+      </li>
     </ul>
     <p v-else>No hay registros</p>
   </div>
@@ -17,7 +30,12 @@
   });
 
   const filteredVehicles = computed(() => {
-    return props.vehicles.filter(vehicle => vehicle.name.includes(props.searchQuery));
+    return props.vehicles.filter(vehicle => 
+      vehicle.brand.includes(props.searchQuery) || 
+      vehicle.vehicleModel.includes(props.searchQuery) ||
+      vehicle.year.toString().includes(props.searchQuery) ||
+      vehicle.status.includes(props.searchQuery)
+    );
   });
 </script>
 
@@ -27,6 +45,20 @@
     padding: 20px;
     border-radius: 5px;
     flex: 1;
+    overflow-y: auto; /* Agregar scroll vertical */
+    max-height: 100%; /* Ajustar la altura máxima según sea necesario */
+  }
+
+  .labels, li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+  }
+
+  .label, .item {
+    flex: 1;
+    text-align: center;
   }
 
   ul {
@@ -35,7 +67,6 @@
   }
 
   li {
-    padding: 10px;
     border-bottom: 1px solid #ccc;
   }
 
