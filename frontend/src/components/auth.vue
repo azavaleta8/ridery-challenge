@@ -1,27 +1,25 @@
 <template>
-    <div class="login">
-      <h1>Login</h1>
+  <div class="login">
+    <h1>Iniciar Sesión</h1>
+
+    <form @submit.prevent="handleLogin">
+      <div>
+        <input type="email" id="email" v-model="email" required placeholder="Correo Electrónico"/>
+      </div>
+      <div>
+        <input type="password" id="password" v-model="password" required placeholder="Contraseña"/>
+      </div>
+      <button type="submit">Iniciar Sesión</button>
+    </form>
+
+    <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+    </nav>
+  </div>
+</template>
   
-      <form @submit.prevent="handleLogin">
-        <div>
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="email" required />
-        </div>
-        <div>
-          <label for="password">Password:</label>
-          <input type="password" id="password" v-model="password" required />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-  
-      <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </template>
-  
-  <script setup lang="ts">
+<script setup lang="ts">
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   
@@ -43,9 +41,9 @@
       alert('Invalid credentials');
     }
   };
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   .login {
     max-width: 500px;
     margin: 0 auto;
@@ -56,11 +54,16 @@
   
   .login h1 {
     text-align: center;
+    height: auto;
+    padding: 10px;
   }
   
   .login form {
     display: flex;
     flex-direction: column;
+    max-width: 300px;
+    width: 100%;
+    margin: auto;
   }
   
   .login form div {
@@ -73,6 +76,7 @@
   }
   
   .login form input {
+    width: 100%;
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -90,5 +94,30 @@
   .login form button:hover {
     background-color: #369f6e;
   }
-  </style>
+  
+  nav {
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  nav a.router-link-exact-active {
+    color: var(--color-text);
+  }
+
+  nav a.router-link-exact-active:hover {
+    background-color: transparent;
+  }
+
+  nav a {
+    display: inline-block;
+    padding: 0 1rem;
+    border-left: 1px solid var(--color-border);
+  }
+
+  nav a:first-of-type {
+    border: 0;
+  }
+</style>
   
