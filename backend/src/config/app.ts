@@ -8,6 +8,7 @@ import * as middlewares from '../middlewares/errorHandle';
 import { apiLimiter } from './rateLimit';
 
 import healthRouter from '../routes/healthRouter';
+import userRouter from '../routes/userRouter';
 
 /**
  * Creates and configures an Express application.
@@ -34,6 +35,7 @@ const createApp = (): Application => {
 
     // Routes
     app.use('', healthRouter);
+    app.use('/api', userRouter);
 
     // Root route
     app.get('/', (req: Request, res: Response) => {
