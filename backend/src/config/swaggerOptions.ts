@@ -10,13 +10,18 @@ const swaggerOptions: Options = {
         },
         components: {
             securitySchemes: {
-                BearerAuth: {
+                bearerAuth: {
                     type: 'http',
                     scheme: 'bearer',
                     bearerFormat: 'JWT',
                 },
             },
-        }
+        },
+        security: [
+            {
+                bearerAuth: [],
+            },
+        ],
     },
     apis: ['./src/**/*.ts'], // Asegúrate de que esta ruta apunte a tus archivos de rutas
     persistAuthorization: true,

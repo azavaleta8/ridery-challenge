@@ -1,6 +1,7 @@
 import express from 'express';
 import { createUserController, deleteUserController, getUserByIdController, getAllUsersController } from '../controllers/userController';
 import { validateUserId, validateUserPOST } from '../validators/userValidation';
+import { authMiddleware } from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
@@ -48,6 +49,8 @@ router.post('/users', validateUserPOST, createUserController);
  *         required: true
  *         schema:
  *           type: string
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: User details
@@ -56,7 +59,7 @@ router.post('/users', validateUserPOST, createUserController);
  *       422:
  *         description: Unprocessable Entity
  */
-router.get('/users/:id', validateUserId, getUserByIdController);
+router.get('/users/:id', validateUserId, authMiddleware, getUserByIdController);
 
 /**
  * @swagger
@@ -64,13 +67,15 @@ router.get('/users/:id', validateUserId, getUserByIdController);
  *   get:
  *     summary: Get all users
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: User details
  *       404:
  *         description: Users not found
  */
-router.get('/users', getAllUsersController);
+router.get('/users', authMiddleware, getAllUsersController);
 
 /**
  * @swagger
@@ -84,6 +89,8 @@ router.get('/users', getAllUsersController);
  *         required: true
  *         schema:
  *           type: string
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       204:
  *         description: User deleted successfully
@@ -92,6 +99,6 @@ router.get('/users', getAllUsersController);
  *       422:
  *         description: Unprocessable Entity
  */
-router.delete('/users/:id', validateUserId, deleteUserController);
+router.delete('/users/:id', validateUserId, authMiddleware, deleteUserController);
 
 export default router;
