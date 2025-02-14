@@ -22,29 +22,33 @@
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { login, register } from '../services/authService';
+  import { useToast } from "vue-toastification";
 
   const email = ref('');
   const password = ref('');
   const isLogin = ref(true);
   const router = useRouter();
+  const toast = useToast();
+
 
   const handleSubmit = async () => {
     try {
-
       if (isLogin.value) {
         const response = await login(email.value, password.value);
+        toast.success('Inicio de sesión exitoso');
         console.log('Login successful:', response);
         router.push('/');
       } else {
         const response = await register(email.value, password.value);
+        toast.success('Registro exitoso');
         console.log('Registration successful:', response);
         isLogin.value = true;
       }
-
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
+
 
   const toggleAuthMode = () => {
     isLogin.value = !isLogin.value;
