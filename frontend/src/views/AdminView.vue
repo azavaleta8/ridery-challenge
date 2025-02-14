@@ -18,8 +18,12 @@
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   import Dashboard from '../components/Dashboard.vue';
+  import {jwtDecode} from 'jwt-decode';
 
-  const userEmail = ref(localStorage.getItem('userEmail') || 'Usuario');
+  
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode<{ email: string }>(token);
+  const userEmail = ref(decodedToken.email || 'Usuario');
   const router = useRouter();
 
   const logout = () => {
