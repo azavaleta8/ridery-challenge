@@ -53,7 +53,6 @@
       const matchQuery = vehicle.brand.toLowerCase().includes(props.searchQuery) || vehicle.vehicleModel.toLowerCase().includes(props.searchQuery) || vehicle._id.toLowerCase().includes(props.searchQuery)
       const matchYear = !props.selectedYear || vehicle.year == props.selectedYear;
       const matchStatus = !props.selectedStatus || vehicle.status == props.selectedStatus;
-      console.log(vehicle.status, props.selectedStatus);
       return matchQuery && matchYear && matchStatus;
     });
   });

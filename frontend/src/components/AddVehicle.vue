@@ -45,7 +45,6 @@
   const getUserIdFromToken = () => {
     const token = localStorage.getItem('token');
     const decodedToken = jwtDecode<{ id: string }>(token);
-    console.log(decodedToken)
     return decodedToken.id;
   };
 

@@ -26,7 +26,8 @@
   const toast = useToast();
 
   const addVehicle = (newVehicle) => {
-    vehicles.value.push(newVehicle);
+    fetchVehicles();
+    // vehicles.value.push(newVehicle);
   };
 
   const updateSearchQuery = (query) => {
@@ -39,7 +40,6 @@
 
   const updateStatusFilter = (status) => {
     selectedStatus.value = status;
-    console.log(selectedStatus.value);
   };
 
   const fetchVehicles = async (page = 1) => {
