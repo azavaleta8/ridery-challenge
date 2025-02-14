@@ -7,6 +7,8 @@ import swaggerOptions from './swaggerOptions';
 import * as middlewares from '../middlewares/errorHandle';
 import { apiLimiter } from './rateLimit';
 
+import healthRouter from '../routes/healthRouter';
+
 /**
  * Creates and configures an Express application.
  *
@@ -28,10 +30,10 @@ const createApp = (): Application => {
 
     // Swagger Config
     const swaggerDocs = swaggerJsDoc(swaggerOptions);
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
     // Routes
-
+    app.use('', healthRouter);
 
     // Root route
     app.get('/', (req: Request, res: Response) => {

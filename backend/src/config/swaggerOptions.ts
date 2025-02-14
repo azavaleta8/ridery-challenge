@@ -4,7 +4,7 @@ const swaggerOptions: Options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'To Do API',
+            title: 'Ridery Challenge API',
             version: '1.0.0',
             description: 'API documentation',
         },
@@ -18,7 +18,7 @@ const swaggerOptions: Options = {
             },
         }
     },
-    apis: ['./src/api/**/*.ts'], // Asegúrate de que esta ruta apunte a tus archivos de rutas
+    apis: ['./src/**/*.ts'], // Asegúrate de que esta ruta apunte a tus archivos de rutas
     persistAuthorization: true,
 };
 
