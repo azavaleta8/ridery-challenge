@@ -12,6 +12,6 @@
   const emits = defineEmits(['searchQueryChanged']);
 
   const search = () => {
-    emits('searchQueryChanged', searchQuery.value);
+    emits('searchQueryChanged', searchQuery.value.toLowerCase());
   };
 </script>

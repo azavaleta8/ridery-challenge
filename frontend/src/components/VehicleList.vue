@@ -28,13 +28,11 @@
     vehicles: Array,
     searchQuery: String
   });
-
+  
   const filteredVehicles = computed(() => {
     return props.vehicles.filter(vehicle => 
-      vehicle.brand.includes(props.searchQuery) || 
-      vehicle.vehicleModel.includes(props.searchQuery) ||
-      vehicle.year.toString().includes(props.searchQuery) ||
-      vehicle.status.includes(props.searchQuery)
+      vehicle.brand.toLowerCase().includes(props.searchQuery) || 
+      vehicle.vehicleModel.toLowerCase().includes(props.searchQuery)
     );
   });
 </script>
