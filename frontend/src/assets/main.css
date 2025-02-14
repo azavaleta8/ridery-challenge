@@ -6,6 +6,9 @@
   margin: auto;
   font-weight: normal;
   display: flex;
+  font-family: 'Arial', sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-background);
 }
 
 a,
