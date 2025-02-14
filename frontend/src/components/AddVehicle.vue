@@ -1,17 +1,21 @@
 <template>
-    <div class="add-vehicle">
-      <h2>Agregar Nuevo Vehículo</h2>
-      <!-- Aquí puedes agregar el formulario para agregar un nuevo vehículo -->
-    </div>
-  </template>
-  
-  <script setup lang="ts">
-  </script>
-  
-  <style scoped>
-  .add-vehicle {
-    background-color: #f8d7da;
-    padding: 20px;
-    border-radius: 5px;
-  }
-  </style>
+  <div class="add-vehicle">
+    <h2>Agregar Nuevo Vehículo</h2>
+    <form @submit.prevent="addVehicle">
+      <!-- Campos del formulario -->
+      <button type="submit">Agregar</button>
+    </form>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { defineEmits } from 'vue';
+
+  const emits = defineEmits(['vehicleAdded']);
+
+  const addVehicle = () => {
+    // Lógica para agregar vehículo
+    const newVehicle = { /* datos del nuevo vehículo */ };
+    emits('vehicleAdded', newVehicle);
+  };
+</script>

@@ -1,18 +1,21 @@
 <template>
-    <div class="vehicle-list">
-      <h2>Lista de Vehículos</h2>
-      <!-- Aquí puedes agregar la lista de vehículos -->
-    </div>
-  </template>
-  
-  <script setup lang="ts">
-  </script>
-  
-  <style scoped>
-  .vehicle-list {
-    background-color: #d4edda;
-    padding: 20px;
-    border-radius: 5px;
-    flex: 1;
-  }
-  </style>
+  <div class="vehicle-list">
+    <h2>Lista de Vehículos</h2>
+    <ul>
+      <li v-for="vehicle in filteredVehicles" :key="vehicle.id">{{ vehicle.name }}</li>
+    </ul>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { computed, defineProps } from 'vue';
+
+  const props = defineProps({
+    vehicles: Array,
+    searchQuery: String
+  });
+
+  const filteredVehicles = computed(() => {
+    return props.vehicles.filter(vehicle => vehicle.name.includes(props.searchQuery));
+  });
+</script>

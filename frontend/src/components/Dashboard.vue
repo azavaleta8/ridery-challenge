@@ -1,18 +1,30 @@
 <template>
     <div class="container">
-      <AddVehicle />
-      <Search />
-      <VehicleList />
+      <AddVehicle @vehicleAdded="addVehicle" />
+      <Search @searchQueryChanged="updateSearchQuery" />
+      <VehicleList :vehicles="vehicles" :searchQuery="searchQuery" />
     </div>
-  </template>
+</template>
   
-  <script setup lang="ts">
+<script setup lang="ts">
+  import { ref } from 'vue';
   import AddVehicle from './AddVehicle.vue';
   import Search from './Search.vue';
   import VehicleList from './VehicleList.vue';
-  </script>
   
-  <style scoped>
+  const vehicles = ref([]);
+  const searchQuery = ref('');
+  
+  const addVehicle = (newVehicle) => {
+    vehicles.value.push(newVehicle);
+  };
+  
+  const updateSearchQuery = (query) => {
+    searchQuery.value = query;
+  };
+</script>
+  
+<style scoped>
   .container {
     margin: auto;
     height: 90%;
@@ -25,4 +37,4 @@
     gap: 20px;
     padding: 20px;
   }
-  </style>
+</style>

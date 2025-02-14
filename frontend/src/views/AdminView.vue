@@ -48,7 +48,7 @@
     justify-content: space-between;
     align-items: center;
     height: 80px;
-    background-color: #42b983;
+    background-color: #b0e4bc;
     color: black;
     padding: 0 20px;
   }
