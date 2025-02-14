@@ -7,6 +7,13 @@ Este proyecto implementa una API RESTful para la gestión de vehículos y un fro
 - El frontend está disponible en `https://ridery-challenge.onrender.com`
 - El backend está disponible en `https://ridery-challenge-api.onrender.com/docs/`
 
+### Credenciales de Prueba
+
+Estas credenciales son de prueba y se pueden usar para acceder a la aplicación:
+
+- **Email:** user@example.com
+- **Password:** password123
+
 ## Configuración y Ejecución del Proyecto
 
 ### Prerrequisitos
