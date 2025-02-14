@@ -50,7 +50,8 @@
   const filteredVehicles = computed(() => {
     return props.vehicles.filter(vehicle => 
       vehicle.brand.toLowerCase().includes(props.searchQuery) || 
-      vehicle.vehicleModel.toLowerCase().includes(props.searchQuery)
+      vehicle.vehicleModel.toLowerCase().includes(props.searchQuery) ||
+      vehicle._id.toLowerCase().includes(props.searchQuery)
     );
   });
 
@@ -110,6 +111,7 @@
   .vehicle-list {
     background-color: #d4edda;
     padding: 20px;
+    padding-top: 10px;
     border-radius: 5px;
     flex: 1;
     overflow-y: auto; /* Agregar scroll vertical */
@@ -146,5 +148,10 @@
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;
+  }
+
+  h2 {
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 </style>
