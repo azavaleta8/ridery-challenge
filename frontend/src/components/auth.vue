@@ -1,88 +1,98 @@
 <template>
-  <div class="login">
-    <h1>Iniciar Sesión</h1>
+  <div class="auth">
+    <h1>{{ isLogin ? 'Iniciar Sesión' : 'Registro' }}</h1>
 
-    <form @submit.prevent="handleLogin">
+    <form @submit.prevent="handleSubmit">
       <div>
         <input type="email" id="email" v-model="email" required placeholder="Correo Electrónico"/>
       </div>
       <div>
         <input type="password" id="password" v-model="password" required placeholder="Contraseña"/>
       </div>
-      <button type="submit">Iniciar Sesión</button>
+      <button type="submit">{{ isLogin ? 'Iniciar Sesión' : 'Registrate' }}</button>
     </form>
 
     <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/" @click.prevent="toggleAuthMode">{{ isLogin ? 'Registro' : 'Iniciar Sesión' }}</RouterLink>
     </nav>
   </div>
 </template>
-  
+
 <script setup lang="ts">
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  
+
   const email = ref('');
   const password = ref('');
+  const isLogin = ref(true);
   const router = useRouter();
-  
-  const handleLogin = async () => {
-    // Aquí puedes agregar la lógica para autenticar al usuario
+
+  const handleSubmit = async () => {
+    // Aquí puedes agregar la lógica para autenticar o registrar al usuario
     // Por ejemplo, hacer una solicitud a tu API de backend
     console.log('Email:', email.value);
     console.log('Password:', password.value);
-  
-    // Simulación de autenticación exitosa
-    if (email.value === 'user@example.com' && password.value === 'password') {
-      // Redirigir al usuario a la página de inicio después de iniciar sesión
-      router.push('/');
+
+    if (isLogin.value) {
+      // Simulación de autenticación exitosa
+      if (email.value === 'user@example.com' && password.value === 'password') {
+        // Redirigir al usuario a la página de inicio después de iniciar sesión
+        router.push('/');
+      } else {
+        alert('Invalid credentials');
+      }
     } else {
-      alert('Invalid credentials');
+      // Simulación de registro exitoso
+      alert('Registro exitoso');
+      isLogin.value = true;
     }
   };
+
+  const toggleAuthMode = () => {
+    isLogin.value = !isLogin.value;
+  };
 </script>
-  
+
 <style scoped>
-  .login {
+  .auth {
     max-width: 500px;
     margin: 0 auto;
     padding: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
-  
-  .login h1 {
+
+  .auth h1 {
     text-align: center;
     height: auto;
     padding: 10px;
   }
-  
-  .login form {
+
+  .auth form {
     display: flex;
     flex-direction: column;
     max-width: 300px;
     width: 100%;
     margin: auto;
   }
-  
-  .login form div {
+
+  .auth form div {
     margin-bottom: 1rem;
   }
-  
-  .login form label {
+
+  .auth form label {
     margin-bottom: 0.5rem;
     font-weight: bold;
   }
-  
-  .login form input {
+
+  .auth form input {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
-  
-  .login form button {
+
+  .auth form button {
     padding: 0.5rem;
     border: none;
     border-radius: 4px;
@@ -90,11 +100,11 @@
     color: white;
     cursor: pointer;
   }
-  
-  .login form button:hover {
+
+  .auth form button:hover {
     background-color: #369f6e;
   }
-  
+
   nav {
     width: 100%;
     font-size: 12px;
@@ -120,4 +130,3 @@
     border: 0;
   }
 </style>
-  
