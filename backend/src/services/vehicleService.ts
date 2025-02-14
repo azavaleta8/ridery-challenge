@@ -49,6 +49,7 @@ export const getAllVehiclesByUserId = async (userId: string, page: number, size:
     try {
         const skip = (page - 1) * size;
         const vehicles = await VehicleModel.find({ user_id: userId })
+            .sort({ createdAt: -1 }) 
             .skip(skip)
             .limit(size);
         const total = await VehicleModel.countDocuments({ user_id: userId });
