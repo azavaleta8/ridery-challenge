@@ -30,8 +30,11 @@
 <script setup lang="ts">
   import { ref, defineEmits, onMounted } from 'vue';
   import { jwtDecode } from 'jwt-decode';
+  import { createVehicle } from '../services/vehicleService';
+  import { useToast } from 'vue-toastification';
 
   const emits = defineEmits(['vehicleAdded']);
+  const toast = useToast();
 
   const brand = ref('');
   const vehicleModel = ref('');
@@ -46,22 +49,29 @@
     return decodedToken.id;
   };
 
-  const addVehicle = () => {
-    const newVehicle = {
+  const addVehicle = async () => {
+    let newVehicle = {
       brand: brand.value,
       vehicleModel: vehicleModel.value,
       year: year.value,
       status: status.value,
       user_id: getUserIdFromToken()
     };
-    console.log(newVehicle)
-    emits('vehicleAdded', newVehicle);
 
-    // Limpiar el formulario después de agregar el vehículo
-    brand.value = '';
-    vehicleModel.value = '';
-    year.value = '';
-    status.value = '';
+    try {
+      const token = localStorage.getItem('token');
+      newVehicle = await createVehicle(token, newVehicle);
+      toast.success('Vehículo agregado exitosamente');
+      emits('vehicleAdded', newVehicle);
+
+      // Limpiar el formulario después de agregar el vehículo
+      brand.value = '';
+      vehicleModel.value = '';
+      year.value = '';
+      status.value = '';
+    } catch (error) {
+      toast.error(error.message || 'Error al agregar el vehículo');
+    }
   };
 
   onMounted(() => {
