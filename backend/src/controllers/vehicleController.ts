@@ -49,7 +49,14 @@ export const updateVehicleController = async (req: Request, res: Response, next:
  */
 export const getAllVehiclesController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const vehicles = await VehicleService.getAllVehicles();
+        
+        if (!req.user) {
+            res.status(StatusCodes.UNAUTHORIZED).json({ message: 'User not authenticated' });
+            return;
+        }
+
+        const userId = req.user.id;
+        const vehicles = await VehicleService.getAllVehiclesByUserId(userId);
         res.status(StatusCodes.OK).json(vehicles);
     } catch (error) {
         next(error);

@@ -42,11 +42,12 @@ export const updateVehicle = async (id: string, updateData: Partial<IVehicle>): 
  * @returns An array of all vehicles.
  * @throws {Error} If there is an error fetching the vehicles.
  */
-export const getAllVehicles = async (): Promise<IVehicle[]> => {
+export const getAllVehiclesByUserId = async (userId : string): Promise<IVehicle[]> => {
     try {
-        return await VehicleModel.find();
+        const vehicles = await VehicleModel.find({ user_id: userId });
+        return vehicles;
     } catch (error) {
-        throw new Error(`Error fetching vehicles: ${(error as Error).message}`);
+        throw new Error(`Error fetching vehicles by user ID: ${(error as Error).message}`);
     }
 };
 
