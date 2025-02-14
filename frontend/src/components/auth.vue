@@ -21,6 +21,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { login, register } from '../services/authService';
 
   const email = ref('');
   const password = ref('');
@@ -28,23 +29,20 @@
   const router = useRouter();
 
   const handleSubmit = async () => {
-    // Aquí puedes agregar la lógica para autenticar o registrar al usuario
-    // Por ejemplo, hacer una solicitud a tu API de backend
-    console.log('Email:', email.value);
-    console.log('Password:', password.value);
+    try {
 
-    if (isLogin.value) {
-      // Simulación de autenticación exitosa
-      if (email.value === 'user@example.com' && password.value === 'password') {
-        // Redirigir al usuario a la página de inicio después de iniciar sesión
+      if (isLogin.value) {
+        const response = await login(email.value, password.value);
+        console.log('Login successful:', response);
         router.push('/');
       } else {
-        alert('Invalid credentials');
+        const response = await register(email.value, password.value);
+        console.log('Registration successful:', response);
+        isLogin.value = true;
       }
-    } else {
-      // Simulación de registro exitoso
-      alert('Registro exitoso');
-      isLogin.value = true;
+
+    } catch (error) {
+      alert(error.message);
     }
   };
 
