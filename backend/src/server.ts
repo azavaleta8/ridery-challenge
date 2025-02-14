@@ -44,10 +44,10 @@ const startServer = async () => {
         app.listen(PORT, () => {
             if (NODE_ENV === 'production') {
                 console.log(`Server running on ${HOST} in ${NODE_ENV} mode`);
-                console.log(`Swagger docs are available at ${HOST}/api-docs`);
+                console.log(`Swagger docs are available at ${HOST}/docs`);
             } else {
                 console.log(`Server running on http://${HOST}:${PORT} in ${NODE_ENV} mode`);
-                console.log(`Swagger docs are available at http://${HOST}:${PORT}/api-docs`);
+                console.log(`Swagger docs are available at http://${HOST}:${PORT}/docs`);
             }
         });
     } catch (error) {
