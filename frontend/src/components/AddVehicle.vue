@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
   import { ref, defineEmits, onMounted } from 'vue';
+  import { jwtDecode } from 'jwt-decode';
 
   const emits = defineEmits(['vehicleAdded']);
 
@@ -38,15 +39,24 @@
   const status = ref('');
   const years = ref<number[]>([]);
 
+  const getUserIdFromToken = () => {
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode<{ id: string }>(token);
+    console.log(decodedToken)
+    return decodedToken.id;
+  };
+
   const addVehicle = () => {
     const newVehicle = {
       brand: brand.value,
       vehicleModel: vehicleModel.value,
       year: year.value,
       status: status.value,
-      user_id: 'some_user_id' // Reemplaza esto con el ID del usuario real
+      user_id: getUserIdFromToken()
     };
+    console.log(newVehicle)
     emits('vehicleAdded', newVehicle);
+
     // Limpiar el formulario después de agregar el vehículo
     brand.value = '';
     vehicleModel.value = '';
