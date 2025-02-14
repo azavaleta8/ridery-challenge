@@ -9,8 +9,7 @@
       </div>
     </nav>
     <div class="content">
-      <h1>Admin Page</h1>
-      <!-- Aquí puedes agregar el contenido de la página de administración -->
+      <Dashboard></Dashboard>
     </div>
   </div>
 </template>
@@ -18,6 +17,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import Dashboard from '../components/Dashboard.vue';
 
   const userEmail = ref(localStorage.getItem('userEmail') || 'Usuario');
   const router = useRouter();
@@ -37,13 +37,19 @@
     height: 100%;
   }
 
+  .content {
+    height: calc(100% - 80px);
+    width: 100%;
+    display: flex;
+  }
+
   .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 80px;
-    background-color: #03002f;
-    color: white;
+    background-color: #42b983;
+    color: black;
     padding: 0 20px;
   }
 
@@ -63,8 +69,5 @@
   .navbar-right button:hover {
     background-color: #ff1a1a;
   }
-
-  .content {
-    flex: 1;
-  }
+  
 </style>
