@@ -17,7 +17,7 @@
         <div class="item">{{ vehicle.vehicleModel }}</div>
         <div class="item">{{ vehicle.year }}</div>
         <div class="item">
-          <select v-model="vehicle.status" @change="confirmStatusChange(vehicle)">
+          <select :value="vehicle.status" @change="confirmStatusChange(vehicle, $event)" :key="componentKey">
             <option value="available">Disponible</option>
             <option value="in_maintenance">En mantenimiento</option>
             <option value="in_service">En servicio</option>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, defineProps } from 'vue';
+  import { computed, defineProps, reactive, ref } from 'vue';
   import { useToast } from 'vue-toastification';
   import ConfirmDialog from './ConfirmDialog.vue';
 
@@ -41,6 +41,11 @@
 
   const toast = useToast();
 
+  const componentKey = ref(0);
+  const forceRerender = () => {
+    componentKey.value += 1;
+  };
+
   const filteredVehicles = computed(() => {
     return props.vehicles.filter(vehicle => 
       vehicle.brand.toLowerCase().includes(props.searchQuery) || 
@@ -48,21 +53,24 @@
     );
   });
 
-  const confirmStatusChange = (vehicle) => {
+  const confirmStatusChange = (vehicle, event) => {
+    console.log(vehicle, event.target.value);
     const originalStatus = vehicle.status;
+    const newStatus = event.target.value;
 
     toast.info({
       component: ConfirmDialog,
       props: {
-        message: `¿Estás seguro de que deseas cambiar el estado del vehículo ${vehicle._id.slice(-5)} a ${vehicle.status}?`
+        message: `¿Estás seguro de que deseas cambiar el estado del vehículo ${vehicle._id.slice(-5)} a ${newStatus}?`
       },
       listeners: {
         confirm: () => {
-          updateStatus(vehicle);
+          updateStatus(vehicle, newStatus);
           toast.clear();
         },
         cancel: () => {
           vehicle.status = originalStatus;
+          forceRerender();
           toast.clear();
         }
       },
@@ -74,7 +82,8 @@
     });
   };
 
-  const updateStatus = (vehicle) => {
+  const updateStatus = (vehicle, newStatus) => {
+    vehicle.status = newStatus;
     // Aquí puedes agregar la lógica para actualizar el estado del vehículo en el backend
     console.log(`Estado del vehículo ${vehicle._id} actualizado a ${vehicle.status}`);
   };
