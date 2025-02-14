@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <AddVehicle @vehicleAdded="addVehicle" />
-    <Search @searchQueryChanged="updateSearchQuery" />
-    <VehicleList :vehicles="vehicles" :searchQuery="searchQuery" />
+    <Search @searchQueryChanged="updateSearchQuery" @yearChanged="updateYearFilter" @statusChanged="updateStatusFilter"/>
+    <VehicleList :vehicles="vehicles" :searchQuery="searchQuery" :selectedYear="selectedYear" :selectedStatus="selectedStatus"/>
     <Pagination :currentPage="currentPage" :totalPages="totalPages" @pageChanged="handlePageChange" />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
   import { useToast } from 'vue-toastification';
   import AddVehicle from './AddVehicle.vue';
   import Search from './Search.vue';
@@ -18,6 +18,8 @@
 
   const vehicles = ref([]);
   const searchQuery = ref('');
+  const selectedYear = ref('');
+  const selectedStatus = ref('');
   const currentPage = ref(1);
   const totalPages = ref(1);
   const toast = useToast();
@@ -28,6 +30,15 @@
 
   const updateSearchQuery = (query) => {
     searchQuery.value = query;
+  };
+
+  const updateYearFilter = (year) => {
+    selectedYear.value = year;
+  };
+
+  const updateStatusFilter = (status) => {
+    selectedStatus.value = status;
+    console.log(selectedStatus.value);
   };
 
   const fetchVehicles = async (page = 1) => {
